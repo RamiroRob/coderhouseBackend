@@ -55,3 +55,6 @@ productManager.addProduct("producto prueba 2", "Este es un producto prueba 2", 2
 console.log("2 productos agregados")
 console.log(productManager.getProducts());
 console.log(productManager.getProductById(2))
+
+// El comentado da error porque no hay productos
+// console.log(productManager.getProductById(3))
