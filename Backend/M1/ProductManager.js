@@ -10,6 +10,10 @@ class ProductManager {
             throw new Error('Code already exists');
         }
 
+        if (!title || !description || !price || !thumbnail || !code || !stock) {
+            throw new Error('Missing data');
+        }
+
         this.products.push({
             id: this.products.length + 1,
             title,
