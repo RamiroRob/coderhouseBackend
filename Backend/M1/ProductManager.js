@@ -62,3 +62,6 @@ console.log(productManager.getProductById(2))
 
 // El comentado da error porque no hay productos
 // console.log(productManager.getProductById(3))
+
+// El comentado da error porque falta un dato
+// productManager.addProduct("producto prueba 2", "Este es un producto prueba 2", 200, "Sin imagen", "abc12345")
