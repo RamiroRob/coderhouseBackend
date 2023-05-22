@@ -1,7 +1,10 @@
+const fs = require('fs')
+
 class ProductManager {
 
     constructor() {
         this.products = [];
+        this.path = 'productos.txt'
     }
 
     addProduct(title, description, price, thumbnail, code, stock) {
@@ -23,6 +26,8 @@ class ProductManager {
             code,
             stock
         });
+
+        fs.writeFileSync(this.path, JSON.stringify(this.products))
     }
 
     getProducts() {
@@ -30,11 +35,15 @@ class ProductManager {
             throw new Error('No products found');
         }
 
-        return this.products;
+        const data = fs.readFileSync(this.path, 'utf-8');
+        return JSON.parse(data)
     }
 
     getProductById(id) {
-        let product = this.products.find(product => product.id == id);
+
+        const productos = JSON.parse(fs.readFileSync(this.path, 'utf-8'))
+        console.log(productos)
+        let product = productos.find(product => product.id == id);
 
         if(!product) {
             throw new Error('Product not found');
@@ -42,26 +51,31 @@ class ProductManager {
 
         return product;
     }  
+
+    updateProduct(id, field, content) {
+        const productos = JSON.parse(fs.readFileSync(this.path, "utf-8"))
+        productos[id-1][field] = content
+        fs.writeFileSync(this.path, JSON.stringify(productos))
+    }
+
+    deleteProduct(id) {
+        this.products[id-1] = null
+    }
 }
 
 const productManager = new ProductManager();
 
 productManager.addProduct("producto prueba", "Este es un producto prueba", 200, "Sin imagen", "abc123", 25)
+productManager.addProduct("producto prueba 2", "Este es un producto prueba 2", 300, "Sin imagen", "abc1234", 50)
 
-console.log("1 producto agregado")
-console.log(productManager.getProducts());
-console.log(productManager.getProductById(1))
+console.log("Primer log", productManager.getProducts())
+productManager.updateProduct(1, "title", "newTitle12345")
+console.log("Segundo log",productManager.getProducts())
 
-// El comentado da error porque el codigo ya existe
-// productManager.addProduct("producto prueba 2", "Este es un producto prueba 2", 200, "Sin imagen", "abc123", 50)
-productManager.addProduct("producto prueba 2", "Este es un producto prueba 2", 200, "Sin imagen", "abc1234", 50)
+console.log("getProductbyId--------", productManager.getProductById(1))
+// productManager.getProductById(2)
 
-console.log("2 productos agregados")
-console.log(productManager.getProducts());
-console.log(productManager.getProductById(2))
-
-// El comentado da error porque no hay productos
-// console.log(productManager.getProductById(3))
-
-// El comentado da error porque falta un dato
-// productManager.addProduct("producto prueba 2", "Este es un producto prueba 2", 200, "Sin imagen", "abc12345")
+// productManager.deleteProduct(1)
+// productManager.deleteProduct(2)
+// productManager.deleteProduct(3)
+// console.log(productManager.getProducts())
