@@ -12,8 +12,8 @@ app.get('/products', async (req, res) => {
         let productos = await productManager.getProducts()
 
         if (req.query.limit){
+            
             let { limit } = req.query
-            limit = 
             productos = productos.slice(0, parseInt(limit))
         }
 
@@ -28,11 +28,9 @@ app.get('/products', async (req, res) => {
 app.get('/products/:pid', async (req, res) => {
 
     const { pid } = req.params;
-    console.log(pid)
     
     try {
         const productoById = await productManager.getProductById(pid)
-        console.log(productoById)
         res.status(200).json(productoById);
         
     } catch (error) {
