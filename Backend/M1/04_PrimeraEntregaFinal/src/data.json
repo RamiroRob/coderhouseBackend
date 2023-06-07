@@ -1,0 +1,62 @@
+{
+  "products": [
+    {
+      "id": 1,
+      "title": "Product 1",
+      "description": "This is product 1",
+      "price": 100,
+      "code": "P1",
+      "status": true,
+      "stock": 5,
+      "thumbnails": [],
+      "category": "Category 1"
+    }
+  ],
+  "carts": [
+    {
+      "id": 1,
+      "products": [
+        { "product": 1, "quantity": 2 },
+        { "product": 2, "quantity": 2 },
+        { "product": 7, "quantity": 1 },
+        { "product": 8, "quantity": 1 }
+      ]
+    },
+    { "id": 2, "products": [{ "product": 1, "quantity": 1 }] },
+    {
+      "id": 3,
+      "products": [
+        { "product": 1, "quantity": 5 },
+        { "product": 3, "quantity": 7 }
+      ]
+    },
+    {
+      "id": 4,
+      "products": [
+        { "product": 1, "quantity": 5 },
+        { "product": 3, "quantity": 7 }
+      ]
+    },
+    {
+      "id": 5,
+      "products": [
+        { "product": 1, "quantity": 5 },
+        { "product": 3, "quantity": 7 }
+      ]
+    },
+    {
+      "id": 6,
+      "products": [
+        { "product": 1, "quantity": 5 },
+        { "product": 3, "quantity": 7 }
+      ]
+    },
+    {
+      "id": 7,
+      "products": [
+        { "product": 1, "quantity": 5 },
+        { "product": 3, "quantity": 7 }
+      ]
+    }
+  ]
+}
