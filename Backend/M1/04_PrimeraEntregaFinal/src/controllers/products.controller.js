@@ -27,15 +27,20 @@ const getProducts = (req, res) => {
 const createProduct = (req, res) => {
 
     const { title, description, code, price, stock, thumbnails, category } = req.body;
-
+    
+    let maxId
     if (fs.existsSync(pathData)) {
 
         const data = JSON.parse(fs.readFileSync(pathData))
         const products = data.products
 
-        if (products.find(product => product.code == code)) {
-            res.status(400).json({ message: 'Ya existe un producto con ese código' });
+
+        if (products.length > 0) {
+            maxId = products.reduce((acc, el) => el.id > acc ? el.id : acc, products[0].id)
+        } else {
+            maxId = 0
         }
+
 
         if (!title || !description || !price || !code || !stock || !category) {
             res.status(400).json({ message: 'Falta información del producto, no se puede crear sin información completa' });
@@ -46,7 +51,7 @@ const createProduct = (req, res) => {
     const products = data.products
 
     const newProduct = {
-        id: products.length + 1,
+        id: maxId + 1,
         title,
         description,
         code,

@@ -10,6 +10,61 @@
       "stock": 5,
       "thumbnails": [],
       "category": "Category 1"
+    },
+    {
+      "id": 3,
+      "title": "Product 2",
+      "description": "This is product 2",
+      "code": "P2",
+      "price": 120,
+      "status": true,
+      "stock": 10,
+      "thumbnails": [],
+      "category": "Category 2"
+    },
+    {
+      "id": 4,
+      "title": "Product 2",
+      "description": "This is product 2",
+      "code": "P5",
+      "price": 120,
+      "status": true,
+      "stock": 10,
+      "thumbnails": [],
+      "category": "Category 2"
+    },
+    {
+      "id": 5,
+      "title": "Product 2",
+      "description": "This is product 2",
+      "code": "P5",
+      "price": 120,
+      "status": true,
+      "stock": 10,
+      "thumbnails": [],
+      "category": "Category 2"
+    },
+    {
+      "id": 7,
+      "title": "Product 2",
+      "description": "This is product 2",
+      "code": "P5",
+      "price": 120,
+      "status": true,
+      "stock": 10,
+      "thumbnails": [],
+      "category": "Category 2"
+    },
+    {
+      "id": 8,
+      "title": "Product 2",
+      "description": "This is product 2",
+      "code": "P5",
+      "price": 120,
+      "status": true,
+      "stock": 10,
+      "thumbnails": [],
+      "category": "Category 2"
     }
   ],
   "carts": [
@@ -53,6 +108,20 @@
     },
     {
       "id": 7,
+      "products": [
+        { "product": 1, "quantity": 5 },
+        { "product": 3, "quantity": 7 }
+      ]
+    },
+    {
+      "id": 8,
+      "products": [
+        { "product": 1, "quantity": 5 },
+        { "product": 3, "quantity": 7 }
+      ]
+    },
+    {
+      "id": 9,
       "products": [
         { "product": 1, "quantity": 5 },
         { "product": 3, "quantity": 7 }

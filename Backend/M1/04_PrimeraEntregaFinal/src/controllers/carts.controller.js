@@ -6,13 +6,19 @@ const pathData = path.resolve(__dirname, '../data.json');
 const createCart = (req, res) => {
 
     const { products } = req.body;
-
+    let maxId
 
         data = JSON.parse(fs.readFileSync(pathData))
         carts = data.carts
 
+    if (carts.length > 0) {
+        maxId = carts.reduce((acc, el) => el.id > acc ? el.id : acc, carts[0].id)
+    } else {
+        maxId = 0
+    }
+
     const newCart = {
-        id: carts.length + 1,
+        id: maxId + 1,
         products,
     }
 
