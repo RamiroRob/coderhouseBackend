@@ -66,6 +66,8 @@ const createProduct = (req, res) => {
 
     fs.writeFileSync(pathData, JSON.stringify(data))
 
+    req.io.sockets.emit('new-product', newProduct);
+
     res.status(201).json({ message: 'Product created', data: newProduct });
 }
 

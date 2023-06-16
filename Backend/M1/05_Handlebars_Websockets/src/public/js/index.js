@@ -10,8 +10,9 @@ socket.on('new-product', (data) => {
 
     tr.innerHTML = `
         <td>${data.title}</td>
+        <td>${data.description}</td>
         <td>${data.price}</td>
-        <td>${data.thumbnail}</td>
+        <td>${data.stock}</td>
     `
     table.appendChild(tr)
 })
