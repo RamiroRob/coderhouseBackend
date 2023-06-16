@@ -7,11 +7,17 @@ const viewsRouter = express.Router()
 
 
 viewsRouter.get('/', (req, res) => {
-    res.render('home', {products})
+    res.render('home', {
+        products,
+        style: 'styles.css'
+    })
 })
 
 viewsRouter.get('/realtimeproducts', (req, res) => {
-    res.render('realTimeProducts', {products})
+    res.render('realTimeProducts', {
+        products,
+        style: 'styles.css'
+    })
 })
 
 module.exports = viewsRouter;
