@@ -133,6 +133,8 @@ const deleteProduct = (req, res) => {
 
     fs.writeFileSync(pathData, JSON.stringify(data))
 
+    req.io.sockets.emit('deleted-product', pid);
+
     res.status(200).json({ message: 'Product deleted' });
 }
 

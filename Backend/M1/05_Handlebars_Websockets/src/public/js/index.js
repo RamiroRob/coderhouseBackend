@@ -16,3 +16,11 @@ socket.on('new-product', (data) => {
     `
     table.appendChild(tr)
 })
+
+socket.on('deleted-product', (deletedProductId) => {
+
+    const row = document.querySelector(`tr[data-id="${deletedProductId}"]`);
+    if (row) {
+        row.remove();
+    }
+})
