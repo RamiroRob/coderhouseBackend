@@ -1,40 +1,23 @@
-const fs = require('fs');
-const path = require('path');
+const cartModel = require('../models/carts.model');
 
-const pathData = path.resolve(__dirname, '../data.json');
-
-const createCart = (req, res) => {
+const createCart = async (req, res) => {
 
     const { products } = req.body;
-    let maxId
-
-        data = JSON.parse(fs.readFileSync(pathData))
-        carts = data.carts
-
-    if (carts.length > 0) {
-        maxId = carts.reduce((acc, el) => el.id > acc ? el.id : acc, carts[0].id)
-    } else {
-        maxId = 0
-    }
 
     const newCart = {
-        id: maxId + 1,
-        products,
+        products
     }
 
-    carts.push(newCart);
+    const cart = await cartModel.create(newCart);
 
-    fs.writeFileSync(pathData, JSON.stringify(data))
-
-    res.status(201).json({ message: 'Carrito creado', data: newCart });
+    res.status(201).json({ message: 'Carrito creado', data: cart });
 }
 
-const getCartById = (req, res) => {
+const getCartById = async (req, res) => {
 
     const { cid } = req.params;
-    const data = JSON.parse(fs.readFileSync(pathData))
-    const carts = data.carts
-    let cart = carts.find(cart => cart.id == cid);
+
+    const cart = await cartModel.findById(cid);
 
     if (!cart) {
         res.status(404).json({ message: 'No se encontró el carrito' });
@@ -43,30 +26,30 @@ const getCartById = (req, res) => {
     res.status(200).json(cart);
 }
 
-const addProductToCart = (req, res) => {
+const addProductToCart = async (req, res) => {
 
     const { cid, pid } = req.params;
 
-    const data = JSON.parse(fs.readFileSync(pathData))
-    const carts = data.carts
-    let cart = carts.find(cart => cart.id == cid);
+    let cart = await cartModel.findById(cid);
 
     if (!cart) {
         res.status(404).json({ message: 'No se encontró el carrito' });
     }
 
-        const product = cart.products.find(prod => prod.product == pid);
+    const product = cart.products.find(item => item.product == pid)
 
     if (product) {
-        product.quantity++;
+        cart = await cartModel.findByIdAndUpdate(cid, {
+            $inc: { 'products.$[elem].quantity': 1 }
+        }, {
+            arrayFilters: [{ 'elem.product': Number(pid) }]
+        })
     } else {
-        cart.products.push({
-            product: Number(pid),
-            quantity: 1,
-        });
-    }
 
-    fs.writeFileSync(pathData, JSON.stringify(data))
+        cart = await cartModel.findByIdAndUpdate(cid, {
+            $push: { products: { product: Number(pid), quantity: 1 } }
+        })
+    }
 
     res.status(201).json({ message: 'Producto agregado al carrito', data: cart });
 }
