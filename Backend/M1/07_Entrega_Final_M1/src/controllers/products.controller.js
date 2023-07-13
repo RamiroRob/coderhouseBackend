@@ -7,25 +7,11 @@ const getProducts = async (req, res) => {
     let sort = {}
     let query = {}
 
-    if (req.query.limit) {
-        limit = parseInt(req.query.limit)
-    }
-
-    if (req.query.page) {
-        page = parseInt(req.query.page)
-    }
-
-    if (req.query.sort) {
-        sort.price = req.query.sort === 'desc' ? -1 : 1
-    }
-
-    if (req.query.query) {
-        query = { title: req.query.query }
-    }
-
-    if (req.query.category) {
-        query.category = req.query.category;
-    }
+    if (req.query.limit) limit = parseInt(req.query.limit)
+    if (req.query.page) page = parseInt(req.query.page)
+    if (req.query.sort) sort.price = req.query.sort === 'desc' ? -1 : 1
+    if (req.query.query) query = { title: req.query.query }
+    if (req.query.category) query.category = req.query.category;
 
 
     if (req.query.status) {
