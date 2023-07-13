@@ -1,5 +1,8 @@
 const express = require('express');
 const data = require('../data.json');
+const cartModel = require('../models/carts.model');
+const productModel = require('../models/products.model');
+const axios = require('axios');
 
 const products = data.products
 
@@ -19,5 +22,63 @@ viewsRouter.get('/realtimeproducts', (req, res) => {
         style: 'styles.css'
     })
 })
+
+viewsRouter.get('/products', async (req, res) => {
+    const page = req.query.page || 1;
+    const limit = req.query.limit || 10;
+
+    try {
+        const response = await axios.get(`http://localhost:8080/api/products?page=${page}&limit=${limit}`);
+
+        if (response.data && response.data.status === 'success') {
+            const { payload: products, ...paginationData } = response.data;
+
+            res.render('products', {
+                products,
+                ...paginationData,
+                style: 'styles.css'
+            });
+        } else {
+            res.status(404).send('No hay productos cargados');
+        }
+    } catch (error) {
+        console.error(error);
+        res.status(500).send('Error interno del servidor');
+    }
+})
+
+viewsRouter.get('/product/:id', async (req, res) => {
+    const product = await productModel.findById(req.params.id);
+    if (product) {
+        res.render('product', {
+            product: product.toObject(),
+            style: 'styles.css'
+        })
+    } else {
+        res.status(404).json({ message: 'Producto no encontrado' })
+    }
+})
+
+
+viewsRouter.get('/carts/:cid', async (req, res) => {
+    const cart = await cartModel.findById(req.params.cid);
+
+    if (!cart) {
+        res.status(404).json({ message: 'Carrito no encontrado' });
+    } else {
+        res.render('cart', {
+            cart: {
+                ...cart.toObject(),
+                products: cart.products.map(p => ({
+                    product: p.product,
+                    quantity: p.quantity
+                }))
+            },
+            style: 'styles.css'
+        });
+    }
+});
+
+
 
 module.exports = viewsRouter;
