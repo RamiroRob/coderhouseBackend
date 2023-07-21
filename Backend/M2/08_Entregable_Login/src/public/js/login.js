@@ -1,3 +1,4 @@
+
 const form = document.getElementById('loginForm');
 
 form.addEventListener('submit', async (event) => {

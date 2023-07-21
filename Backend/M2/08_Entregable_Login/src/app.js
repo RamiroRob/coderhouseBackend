@@ -26,14 +26,14 @@ connect()
 
 app.use(
     session({
-        store: new MongoStore({
+        store: MongoStore.create({
             mongoUrl:
                 "mongodb+srv://admin:admin@coderhouse-backend.qo4uaaf.mongodb.net/",
-            ttl: 3600,
+            ttl: 600,
         }),
-        secret: "CoderS3cretFeliz",
+        secret: "CoderSecret",
         resave: false,
-        saveUninitialized: false,
+        saveUninitialized: true, // Revisar esto
     })
 );
 

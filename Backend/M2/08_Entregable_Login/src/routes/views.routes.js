@@ -93,6 +93,4 @@ viewsRouter.get('/profile', (req, res) => {
     })
 })
 
-
-
 module.exports = viewsRouter;
