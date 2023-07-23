@@ -20,7 +20,7 @@ sessionsRouter.post('/login', async (req, res) => {
         email: user.email
     }
 
-    res.json({ status: "success", message: "Logged in successfully" });
+    res.status(200).json({ status: "success", message: "Logged in successfully" });
 })
 
 
