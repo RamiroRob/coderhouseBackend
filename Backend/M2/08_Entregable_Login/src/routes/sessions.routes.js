@@ -23,4 +23,16 @@ sessionsRouter.post('/login', async (req, res) => {
     res.json({ status: "success", message: "Logged in successfully" });
 })
 
+
+
+sessionsRouter.post('/logout', (req, res) => {
+    req.session.destroy(err => {
+        if (err) {
+            return res.json({ success: false, message: 'Error al cerrar sesión.' });
+        }
+        res.clearCookie('connect.sid'); // Limpia la cookie de sesión.
+        return res.json({ success: true, message: 'Sesión cerrada con éxito.' });
+    });
+});
+
 module.exports = sessionsRouter;
