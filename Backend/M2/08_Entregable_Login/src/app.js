@@ -4,7 +4,7 @@ const mongoose = require('mongoose');
 const { Server } = require('socket.io');
 const session = require('express-session');
 const MongoStore = require('connect-mongo');
-const cookieParser = require('cookie-parser');
+// const cookieParser = require('cookie-parser');
 
 const router = require('./routes/routes');
 const viewsRouter = require('./routes/views.routes');
@@ -24,6 +24,22 @@ const connect = async () => {
 
 connect()
 
+
+// Handlebars
+app.engine("handlebars", handlebars.engine());
+app.set("views", __dirname + "/views")
+app.set("view engine", "handlebars");
+
+
+// Middlewares
+app.use(express.json());
+// app.use(cookieParser())
+app.use(express.urlencoded({ extended: true }));
+app.use(express.static(__dirname + '/public'));
+app.use((req, res, next) => {
+    req.io = io;
+    next();
+});
 app.use(
     session({
         store: MongoStore.create({
@@ -37,21 +53,6 @@ app.use(
     })
 );
 
-// Handlebars
-app.engine("handlebars", handlebars.engine());
-app.set("views", __dirname + "/views")
-app.set("view engine", "handlebars");
-
-
-// Middlewares
-app.use(express.json());
-app.use(cookieParser())
-app.use(express.urlencoded({ extended: true }));
-app.use(express.static(__dirname + '/public'));
-app.use((req, res, next) => {
-    req.io = io;
-    next();
-});
 app.use('/api', router)
 app.use('/', viewsRouter)
 

@@ -36,7 +36,8 @@ viewsRouter.get('/products', async (req, res) => {
             res.render('products', {
                 products,
                 ...paginationData,
-                style: 'styles.css'
+                style: 'styles.css',
+                user: req.session.user
             });
         } else {
             res.status(404).send('No hay productos cargados');
