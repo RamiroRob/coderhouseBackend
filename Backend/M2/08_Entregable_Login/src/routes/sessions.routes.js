@@ -17,7 +17,8 @@ sessionsRouter.post('/login', async (req, res) => {
 
     req.session.user = {
         name: `${user.first_name} ${user.last_name}`,
-        email: user.email
+        email: user.email,
+        role: user.role,
     }
 
     res.status(200).json({ status: "success", message: "Logged in successfully" });
