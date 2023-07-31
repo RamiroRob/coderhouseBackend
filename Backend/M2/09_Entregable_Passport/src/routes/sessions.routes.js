@@ -19,7 +19,7 @@ sessionsRouter.post('/login', async (req, res) => {
 
 
     const isMatch = bcrypt.compareSync(password, user.password);
-    if (!istMatch) return res.status(400).json({ status: "error", error: "Usuario o contraseña incorrectas" });
+    if (!isMatch) return res.status(400).json({ status: "error", error: "Usuario o contraseña incorrectas" });
 
 
     req.session.user = {
