@@ -1,9 +1,12 @@
 const express = require('express');
 const userModel = require('../models/users.model');
+const bcrypt = require('bcrypt');
 
 const sessionsRouter = express.Router();
 
 sessionsRouter.post('/register', async (req, res) => {
+
+    req.body.password = bcrypt.hashSync(req.body.password, 10)
     const result = await userModel.create(req.body);
     res.send({ status: "success", payload: result });
 })
@@ -11,8 +14,12 @@ sessionsRouter.post('/register', async (req, res) => {
 sessionsRouter.post('/login', async (req, res) => {
     const { email, password } = req.body;
 
-    const user = await userModel.findOne({ email, password });
+    const user = await userModel.findOne({ email });
     if (!user) return res.status(400).json({ status: "error", error: "Usuario o contraseña incorrectas" });
+
+
+    const isMatch = bcrypt.compareSync(password, user.password);
+    if (!istMatch) return res.status(400).json({ status: "error", error: "Usuario o contraseña incorrectas" });
 
 
     req.session.user = {
@@ -21,7 +28,7 @@ sessionsRouter.post('/login', async (req, res) => {
         role: user.role,
     }
 
-    res.status(200).json({ status: "success", message: "Logged in successfully" });
+    res.status(200).json({ status: "success", message: "Logueado satisfactoriamente!" });
 })
 
 
