@@ -10,7 +10,7 @@ const initializePassport = () => {
     passport.use("register", new localStrategy({
         usernameField: "email",
         passReqToCallback: true,
-    }, async (req, done) => {
+    }, async (req, email, password, done) => {
         try {
             const { email, password, first_name, last_name } = req.body;
             const user = await userModel.findOne({ email });
@@ -20,7 +20,7 @@ const initializePassport = () => {
                 first_name,
                 last_name,
                 email,
-                password: createHash(password)
+                password: await createHash(password),
             }
             const result = await userModel.create(newUser);
             return done(null, result);
@@ -52,7 +52,7 @@ const initializePassport = () => {
     );
 
     passport.deserializeUser(async (id, done) => {
-        const user = userModel.findById(id);
+        const user = await userModel.findById(id);
         done(null, user);
     })
 }

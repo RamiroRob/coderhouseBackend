@@ -4,7 +4,8 @@ const mongoose = require('mongoose');
 const { Server } = require('socket.io');
 const session = require('express-session');
 const MongoStore = require('connect-mongo');
-// const cookieParser = require('cookie-parser');
+const passport = require('passport');
+const initializePassport = require('./config/passport.config');
 
 const router = require('./routes/routes');
 const viewsRouter = require('./routes/views.routes');
@@ -52,6 +53,10 @@ app.use(
         saveUninitialized: true, // Revisar esto
     })
 );
+
+initializePassport();
+app.use(passport.initialize());
+app.use(passport.session());
 
 app.use('/api', router)
 app.use('/', viewsRouter)
