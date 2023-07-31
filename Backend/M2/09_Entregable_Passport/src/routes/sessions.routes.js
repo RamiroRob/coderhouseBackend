@@ -1,17 +1,17 @@
 const express = require('express');
 const userModel = require('../models/users.model');
-const bcrypt = require('bcrypt');
+const passport = require('passport');
 
 const sessionsRouter = express.Router();
 
-sessionsRouter.post('/register', async (req, res) => {
+sessionsRouter.post('/register', passport.authenticate("register"),
+    async (req, res) => {
+        // const result = await userModel.create(req.body);
+        // res.send({ status: "success", payload: result });
+        res.send({ status: "success", message: "Registrado satisfactoriamente!" });
+    })
 
-    req.body.password = await bcrypt.hash(req.body.password, 10)
-    const result = await userModel.create(req.body);
-    res.send({ status: "success", payload: result });
-})
-
-sessionsRouter.post('/login', async (req, res) => {
+sessionsRouter.post('/login', passport.authenticate("login"), async (req, res) => {
     const { email, password } = req.body;
 
     const user = await userModel.findOne({ email });
