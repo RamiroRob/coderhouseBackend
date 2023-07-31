@@ -6,7 +6,7 @@ const sessionsRouter = express.Router();
 
 sessionsRouter.post('/register', async (req, res) => {
 
-    req.body.password = bcrypt.hashSync(req.body.password, 10)
+    req.body.password = await bcrypt.hash(req.body.password, 10)
     const result = await userModel.create(req.body);
     res.send({ status: "success", payload: result });
 })
@@ -18,7 +18,7 @@ sessionsRouter.post('/login', async (req, res) => {
     if (!user) return res.status(400).json({ status: "error", error: "Usuario o contraseña incorrectas" });
 
 
-    const isMatch = bcrypt.compareSync(password, user.password);
+    const isMatch = await bcrypt.compare(password, user.password);
     if (!isMatch) return res.status(400).json({ status: "error", error: "Usuario o contraseña incorrectas" });
 
 
