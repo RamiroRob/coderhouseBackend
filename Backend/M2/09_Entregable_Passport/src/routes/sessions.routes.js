@@ -14,7 +14,7 @@ sessionsRouter.post('/login', passport.authenticate("login"), async (req, res) =
 
 
     req.session.user = {
-        name: `${req.user.first_name} ${req.user.last_name}`,
+        name: `${req.user.first_name ? req.user.first_name : ''} ${req.user.last_name ? req.user.last_name : ''}`,
         email: req.user.email,
         role: req.user.role,
     }
@@ -23,7 +23,11 @@ sessionsRouter.post('/login', passport.authenticate("login"), async (req, res) =
 })
 
 sessionsRouter.get('/githubcallback', passport.authenticate('github'), async (req, res) => {
-    req.session.user = req.user
+    req.session.user = {
+        name: `${req.user.first_name} ${req.user.last_name}`,
+        email: req.user.email,
+        role: req.user.role,
+    }
     res.redirect('/products')
 }
 );
