@@ -1,5 +1,5 @@
 const express = require('express');
-const userModel = require('../models/users.model');
+// const userModel = require('../models/users.model');
 const passport = require('passport');
 
 const sessionsRouter = express.Router();
@@ -21,6 +21,13 @@ sessionsRouter.post('/login', passport.authenticate("login"), async (req, res) =
 
     res.status(200).json({ status: "success", message: "Logueado satisfactoriamente!" });
 })
+
+sessionsRouter.get('/githubcallback', passport.authenticate('github'), async (req, res) => {
+    req.session.user = req.user
+    res.redirect('/products')
+}
+);
+
 
 
 
