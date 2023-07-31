@@ -13,11 +13,11 @@ sessionsRouter.post('/register', passport.authenticate("register"),
 sessionsRouter.post('/login', passport.authenticate("login"), async (req, res) => {
 
 
-    // req.session.user = {
-    //     name: `${user.first_name} ${user.last_name}`,
-    //     email: user.email,
-    //     role: user.role,
-    // }
+    req.session.user = {
+        name: `${req.user.first_name} ${req.user.last_name}`,
+        email: req.user.email,
+        role: req.user.role,
+    }
 
     res.status(200).json({ status: "success", message: "Logueado satisfactoriamente!" });
 })
