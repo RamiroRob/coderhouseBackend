@@ -6,6 +6,7 @@ const session = require('express-session');
 const MongoStore = require('connect-mongo');
 const passport = require('passport');
 const initializePassport = require('./config/passport.config');
+const { mongoUrl } = require('./config/config');
 
 const router = require('./routes/routes');
 const viewsRouter = require('./routes/views.routes');
@@ -18,7 +19,7 @@ const io = new Server(httpServer);
 
 // Conexion a la db
 const connect = async () => {
-    await mongoose.connect('mongodb+srv://admin:admin@coderhouse-backend.qo4uaaf.mongodb.net/')
+    await mongoose.connect(mongoUrl)
         .then(() => console.log('Conectado a la base de datos'))
         .catch((err) => console.log(err))
 }
@@ -44,8 +45,7 @@ app.use((req, res, next) => {
 app.use(
     session({
         store: MongoStore.create({
-            mongoUrl:
-                "mongodb+srv://admin:admin@coderhouse-backend.qo4uaaf.mongodb.net/",
+            mongoUrl: mongoUrl,
             ttl: 600,
         }),
         secret: "CoderSecret",

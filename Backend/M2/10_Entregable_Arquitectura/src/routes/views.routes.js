@@ -1,7 +1,7 @@
 const express = require('express');
 const data = require('../data.json');
-const cartModel = require('../models/carts.model');
-const productModel = require('../models/products.model');
+const cartModel = require('../dao/carts.model');
+const productModel = require('../dao/products.model');
 const axios = require('axios');
 
 const products = data.products
