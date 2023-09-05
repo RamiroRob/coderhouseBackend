@@ -1,4 +1,6 @@
 const cartModel = require('../dao/carts.model')
+const ticketModel = require('../dao/tickets.model');
+const { v4: uuidv4 } = require('uuid');
 
 const createCart = async (products) => {
     const newCart = { products };
@@ -147,6 +149,57 @@ const clearCart = async (cid) => {
     };
 }
 
+const finalizePurchase = async (cid, userEmail) => {
+    let cart = await cartModel.findById(cid);
+    if (!cart) {
+        return {
+            status: 404,
+            message: 'No se encontró el carrito'
+        };
+    }
+
+    let totalAmount = 0;
+    const notAvailableProducts = [];
+
+    for (let cartItem of cart.products) {
+        let product = await productModel.findById(cartItem.product);
+        if (product.stock < cartItem.quantity) {
+            notAvailableProducts.push(cartItem.product);
+        } else {
+            totalAmount += product.price * cartItem.quantity;
+            product.stock -= cartItem.quantity;
+            await product.save();
+        }
+    }
+
+    if (notAvailableProducts.length === 0) {
+        const ticket = await ticketModel.create({
+            code: uuidv4(),
+            purchase_datetime: new Date(),
+            amount: totalAmount,
+            purchaser: userEmail
+        });
+
+        cart.products = [];
+        await cart.save();
+        return {
+            status: 201,
+            message: 'Compra finalizada con éxito',
+            data: ticket
+        };
+    } else {
+        cart.products = cart.products.filter(p => notAvailableProducts.includes(p.product));
+        await cart.save();
+        return {
+            status: 400,
+            message: 'No se pudo completar la compra debido a la falta de stock',
+            data: { notAvailableProducts }
+        };
+    }
+}
+
+
+
 
 module.exports = {
     createCart,
@@ -155,5 +208,6 @@ module.exports = {
     removeProductFromCart,
     updateCart,
     updateProductQuantityInCart,
-    clearCart
+    clearCart,
+    finalizePurchase
 }

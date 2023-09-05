@@ -1,6 +1,6 @@
 const express = require('express');
-// const userModel = require('../models/users.model');
 const passport = require('passport');
+const userDto = require('../utils').userDto;
 
 const sessionsRouter = express.Router();
 
@@ -32,7 +32,13 @@ sessionsRouter.get('/githubcallback', passport.authenticate('github'), async (re
 }
 );
 
-
+sessionsRouter.get('/current', (req, res) => {
+    if (req.session && req.session.user) {
+        res.status(200).json({ user: userDto(req.session.user) });
+    } else {
+        res.status(401).json({ error: "No hay usuario autenticado" });
+    }
+});
 
 
 sessionsRouter.post('/logout', (req, res) => {

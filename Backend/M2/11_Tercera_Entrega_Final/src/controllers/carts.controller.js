@@ -47,6 +47,13 @@ const clearCart = async (req, res) => {
     res.status(result.status).json(result);
 }
 
+const finalizePurchase = async (req, res) => {
+    const { cid } = req.params;
+    const userEmail = req.user.email; // Asumo que tienes el email del usuario en el objeto req.user
+    const result = await cartService.finalizePurchase(cid, userEmail);
+    res.status(result.status).json(result);
+}
+
 module.exports = {
     createCart,
     getCartById,
@@ -54,5 +61,6 @@ module.exports = {
     removeProductFromCart,
     updateCart,
     updateProductQuantityInCart,
-    clearCart
+    clearCart,
+    finalizePurchase
 }

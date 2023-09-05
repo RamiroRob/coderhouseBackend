@@ -1,4 +1,5 @@
 const productService = require('../services/products.service');
+const { authorize } = require('../utils');
 
 const getProducts = async (req, res) => {
     try {
