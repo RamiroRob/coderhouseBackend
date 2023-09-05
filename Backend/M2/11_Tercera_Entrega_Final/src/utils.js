@@ -11,13 +11,7 @@ const isValidPassword = async (user, password) => {
     return await bcrypt.compare(password, user.password)
 }
 
-const userDto = (user) => {
-    return {
-        name: `${user.first_name} ${user.last_name}` || user.name,
-        email: user.email,
-        role: user.role
-    }
-}
+
 
 function authorize(...allowedRoles) {
     return (req, res, next) => {
@@ -38,6 +32,5 @@ function authorize(...allowedRoles) {
 module.exports = {
     createHash,
     isValidPassword,
-    userDto,
     authorize
 }

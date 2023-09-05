@@ -1,6 +1,6 @@
 const express = require('express');
 const passport = require('passport');
-const userDto = require('../utils').userDto;
+const userDto = require('../dto/user.dto');
 
 const sessionsRouter = express.Router();
 
