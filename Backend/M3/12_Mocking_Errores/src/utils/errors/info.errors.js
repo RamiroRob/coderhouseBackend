@@ -1,11 +1,16 @@
-const generateUserErrorInfo = (user) => {
-    return `
+const generateProduct = (product) => {
+  return `
       One or more properties were incomplete or not valid.
       List of required properties:
-      * first_name : Needs to be a string, received ${user.first_name}
-      * last_name  : Needs to be a string, received ${user.last_name}
-      * email      : Needs to be a string, received ${user.email}
+      - name <string>, received ${product.name}
+      - description <string>, received ${product.description}
+      - price <number>, received ${product.price}
+      - stock <number>, received ${product.stock}
+      - category <string>, received ${product.category}
+      - code <string>, received ${product.code}
+      - status <boolean>, received ${product.status}
+      - user <string>, received ${product.user}
     `;
 };
 
-export default generateUserErrorInfo;
+module.exports = generateProduct;

@@ -1,5 +1,9 @@
 const productModel = require('../dao/products.model');
-const faker = require("@faker-js/faker/locale/es")
+const faker = require("@faker-js/faker/locale/es");
+const EnumErrors = require('../utils/errors/enum.errors');
+const CustomErrors = require('../utils/errors/custom.errors');
+const generateProduct = require('../utils/info.errors');
+
 
 const getProducts = async (query) => {
     let limit = 10
@@ -52,6 +56,11 @@ const createProduct = async (productData) => {
     const { title, description, code, price, stock, thumbnails, category } = productData;
 
     if (!title || !description || !price || !code || !stock || !category) {
+        CustomErrors.createError({
+            message: 'Falta información del producto, no se puede crear sin información completa',
+            cause: generateProduct({ title, description, code, price, stock, category }),
+            code: EnumErrors.MISSING_DATA
+        });
         throw new Error('Falta información del producto, no se puede crear sin información completa');
     }
 

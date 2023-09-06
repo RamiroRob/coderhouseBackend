@@ -1,6 +1,6 @@
-import EnumErrors from "../../utils/errors/enum.errors";
+const EnumErrors = require('../../utils/errors/enum.errors');
 
-export default (error, req, res, next) => {
+const errors = (error, req, res, next) => {
     console.log(error.cause);
     switch (error.code) {
         case EnumErrors.INVALID_TYPES_ERROR:
@@ -11,3 +11,5 @@ export default (error, req, res, next) => {
             res.json({ status: "error", error: "Unhandled error" });
     }
 };
+
+module.exports = errors;
