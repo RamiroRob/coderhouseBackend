@@ -1,4 +1,5 @@
 const productModel = require('../dao/products.model');
+const faker = require("@faker-js/faker/locale/es")
 
 const getProducts = async (query) => {
     let limit = 10
@@ -86,10 +87,29 @@ const deleteProduct = async (pid) => {
     return await productModel.findByIdAndDelete(pid);
 }
 
+const mockProducts = async () => {
+    let mockData = [];
+    for (let i = 0; i < 100; i++) {
+        mockData.push({
+            title: faker.commerce.productName(),
+            description: faker.commerce.productDescription(),
+            code: faker.random.uuid(),
+            price: parseFloat(faker.commerce.price()),
+            status: faker.random.boolean(),
+            stock: faker.random.number({ min: 0, max: 100 }),
+            thumbnails: [faker.image.imageUrl()],
+            category: faker.commerce.department()
+        });
+    }
+    await productModel.insertMany(mockData);
+    return mockData;
+}
+
 module.exports = {
     getProducts,
     createProduct,
     getProductById,
     updateProduct,
-    deleteProduct
+    deleteProduct,
+    mockProducts
 }

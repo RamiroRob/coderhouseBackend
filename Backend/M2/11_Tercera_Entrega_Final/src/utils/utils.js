@@ -1,7 +1,4 @@
-// const { fileURLToPath } = require('url');
-// const { dirname } = require('path');
 const bcrypt = require('bcrypt');
-
 
 const createHash = async (password) => {
     return await bcrypt.hash(password, bcrypt.genSaltSync(10))
@@ -10,7 +7,6 @@ const createHash = async (password) => {
 const isValidPassword = async (user, password) => {
     return await bcrypt.compare(password, user.password)
 }
-
 
 
 function authorize(...allowedRoles) {
