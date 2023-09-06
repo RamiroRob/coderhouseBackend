@@ -2,7 +2,7 @@ const passport = require('passport');
 const local = require('passport-local')
 const githubStrategy = require('passport-github2')
 const userModel = require('../dao/users.model');
-const { createHash, isValidPassword } = require('../utils');
+const { createHash, isValidPassword } = require('../utils/utils');
 
 const localStrategy = local.Strategy;
 
