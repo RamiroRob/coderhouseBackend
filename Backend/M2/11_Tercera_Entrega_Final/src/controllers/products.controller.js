@@ -60,14 +60,7 @@ const deleteProduct = async (req, res) => {
     }
 }
 
-const mockProducts = async (req, res) => {
-    try {
-        const mockData = await productService.mockProducts();
-        res.status(201).json({ message: 'Mock products created', data: mockData });
-    } catch (error) {
-        res.status(400).json({ message: error.message });
-    }
-}
+
 
 module.exports = {
     getProducts,
@@ -75,5 +68,4 @@ module.exports = {
     getProductById,
     updateProduct,
     deleteProduct,
-    mockProducts
 }

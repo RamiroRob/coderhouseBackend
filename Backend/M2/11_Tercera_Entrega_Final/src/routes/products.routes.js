@@ -1,5 +1,5 @@
 const express = require('express');
-const { getProducts, createProduct, getProductById, updateProduct, deleteProduct, mockProducts } = require('../controllers/products.controller');
+const { getProducts, createProduct, getProductById, updateProduct, deleteProduct } = require('../controllers/products.controller');
 const { authorize } = require('../utils/utils');
 
 
@@ -12,6 +12,6 @@ productsRouter.get('/:pid', getProductById)
 productsRouter.put('/:pid', authorize("admin"), updateProduct)
 productsRouter.delete('/:pid', authorize("admin"), deleteProduct)
 
-productsRouter.get('/mockingProducts', mockProducts)
+
 
 module.exports = productsRouter;
