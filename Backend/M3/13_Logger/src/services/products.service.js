@@ -2,7 +2,7 @@ const productModel = require('../dao/products.model');
 const faker = require("@faker-js/faker/locale/es");
 const EnumErrors = require('../utils/errors/enum.errors');
 const CustomErrors = require('../utils/errors/custom.errors');
-const generateProduct = require('../utils/info.errors');
+const generateProduct = require('../utils/errors/info.errors');
 
 
 const getProducts = async (query) => {
