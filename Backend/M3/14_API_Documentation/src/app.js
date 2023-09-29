@@ -7,6 +7,8 @@ const MongoStore = require('connect-mongo');
 const passport = require('passport');
 const initializePassport = require('./config/passport.config');
 const { mongoUrl } = require('./config/config');
+const swaggerUi = require('swagger-ui-express');
+const swaggerJSDoc = require('swagger-jsdoc');
 
 const router = require('./routes/routes');
 const viewsRouter = require('./routes/views.routes');
@@ -17,6 +19,21 @@ const app = express();
 const PORT = 8080
 const httpServer = app.listen(PORT || 8080, () => { logger.info(`Servidor funcionando en puerto ${PORT}`); });
 const io = new Server(httpServer);
+
+// Swagger
+const swaggerOptions = {
+    definition: {
+        openapi: "3.0.1",
+        info: {
+            title: "Documentación de e-commerce",
+            description: "Documentación de endpoints de products y carts",
+        },
+    },
+    apis: [`${__dirname}/docs/**/*.yaml`],
+};
+
+const specs = swaggerJSDoc(swaggerOptions);
+app.use("/docs", swaggerUi.serve, swaggerUi.setup(specs));
 
 // Conexion a la db
 const connect = async () => {
