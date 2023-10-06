@@ -1,0 +1,182 @@
+openapi: 3.1.0
+info:
+  title: Documentación de e-commerce
+  description: Documentación de endpoints de products y carts
+  version: 1.0.0
+
+paths:
+  /api/products:
+    get:
+      tags:
+        - Products
+      summary: Obtener todos los productos
+      parameters:
+        - name: limit
+          in: query
+          schema:
+            type: integer
+          description: Límite de productos a devolver
+        - name: page
+          in: query
+          schema:
+            type: integer
+          description: Página de resultados
+        - name: sort
+          in: query
+          schema:
+            type: string
+          description: Ordenamiento de resultados
+        - name: query
+          in: query
+          schema:
+            type: string
+          description: Búsqueda por título
+        - name: category
+          in: query
+          schema:
+            type: string
+          description: Búsqueda por categoría
+        - name: status
+          in: query
+          schema:
+            type: boolean
+          description: Búsqueda por estado
+      responses:
+        200:
+          description: Lista de productos
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: string
+                  payload:
+                    type: array
+                    items:
+                      $ref: "#/components/schemas/Product"
+                additionalProperties:
+                  type: string
+    post:
+      tags:
+        - Products
+      summary: Crear un producto
+      security:
+        - sessionAuth: []
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/Product"
+      responses:
+        201:
+          description: Producto creado
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                  data:
+                    $ref: "#/components/schemas/Product"
+        400:
+          description: Datos inválidos o faltantes
+
+  /api/products/{productId}:
+    get:
+      tags:
+        - Products
+      summary: Obtener un producto por ID
+      parameters:
+        - name: productId
+          in: path
+          required: true
+          description: ID del producto
+          schema:
+            type: string
+      responses:
+        200:
+          description: Detalle del producto
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Product"
+        404:
+          description: Producto no encontrado
+    put:
+      tags:
+        - Products
+      summary: Actualizar un producto
+      security:
+        - sessionAuth: []
+      parameters:
+        - name: productId
+          in: path
+          required: true
+          description: ID del producto
+          schema:
+            type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/Product"
+      responses:
+        200:
+          description: Producto actualizado
+        404:
+          description: Producto no encontrado
+    delete:
+      tags:
+        - Products
+      summary: Eliminar un producto
+      security:
+        - sessionAuth: []
+      parameters:
+        - name: productId
+          in: path
+          required: true
+          description: ID del producto
+          schema:
+            type: string
+      responses:
+        200:
+          description: Producto eliminado
+        404:
+          description: Producto no encontrado
+
+components:
+  schemas:
+    Product:
+      type: object
+      properties:
+        title:
+          type: string
+        description:
+          type: string
+        code:
+          type: string
+        price:
+          type: number
+        stock:
+          type: integer
+        thumbnails:
+          type: array
+          items:
+            type: string
+        category:
+          type: string
+      required:
+        - title
+        - description
+        - code
+        - price
+        - stock
+        - category
+
+security:
+  sessionAuth:
+    type: apiKey
+    in: cookie
+    name: sessionId
