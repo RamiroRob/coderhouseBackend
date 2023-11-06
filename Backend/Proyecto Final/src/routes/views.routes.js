@@ -2,6 +2,8 @@ const express = require('express');
 const data = require('../data.json');
 const cartModel = require('../dao/carts.model');
 const productModel = require('../dao/products.model');
+const { authorize } = require('../utils/utils');
+const userModel = require('../dao/users.model');
 const axios = require('axios');
 
 const products = data.products
@@ -93,5 +95,19 @@ viewsRouter.get('/profile', (req, res) => {
         user: req.session.user
     })
 })
+
+viewsRouter.get('/users', authorize('admin'), async (req, res) => {
+    try {
+        const users = await userModel.find({});
+        res.render('users', {
+            users: users.map(user => user.toObject()),
+        });
+    } catch (error) {
+        console.error(error);
+        res.status(500).send('Error interno del servidor');
+    }
+});
+
+
 
 module.exports = viewsRouter;

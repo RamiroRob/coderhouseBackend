@@ -1,0 +1,36 @@
+<!-- /views/admin.handlebars -->
+<h1>Administración de Usuarios</h1>
+
+{{#if users}}
+  <table>
+    <thead>
+      <tr>
+        <th>Nombre</th>
+        <th>Email</th>
+        <th>Rol</th>
+        <th>Acciones</th>
+      </tr>
+    </thead>
+    <tbody>
+      {{#each users}}
+        <tr>
+          <td>{{this.name}}</td>
+          <td>{{this.email}}</td>
+          <td></td>
+          <td>
+            <button onclick="deleteUser('{{this._id}}')">Eliminar</button>
+          </td>
+        </tr>
+      {{/each}}
+    </tbody>
+  </table>
+{{else}}
+  <p>No hay usuarios para mostrar.</p>
+{{/if}}
+
+<script>
+  function deleteUser(userId) { if (confirm('¿Estás seguro de que quieres
+  eliminar este usuario?')) { fetch('/api/users/' + userId, { method: 'DELETE'
+  }) .then(response => response.json()) .then(data => { location.reload(); })
+  .catch(error => console.error('Error:', error)); } }
+</script>
