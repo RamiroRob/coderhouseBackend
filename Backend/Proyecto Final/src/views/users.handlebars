@@ -1,4 +1,4 @@
-<!-- /views/admin.handlebars -->
+<!-- prettier-ignore -->
 <h1>Administración de Usuarios</h1>
 
 {{#if users}}
@@ -6,6 +6,7 @@
     <thead>
       <tr>
         <th>Nombre</th>
+        <th>Apellido</th>
         <th>Email</th>
         <th>Rol</th>
         <th>Acciones</th>
@@ -14,11 +15,16 @@
     <tbody>
       {{#each users}}
         <tr>
-          <td>{{this.name}}</td>
+          <td>{{this.first_name}}</td>
+          <td>{{this.last_name}}</td>
           <td>{{this.email}}</td>
-          <td></td>
+          <td>{{this.role}}</td>
           <td>
-            <button onclick="deleteUser('{{this._id}}')">Eliminar</button>
+
+            <button
+              class="delete-user-button"
+              data-user-id={{this._id}}
+            >Eliminar</button>
           </td>
         </tr>
       {{/each}}
@@ -28,9 +34,4 @@
   <p>No hay usuarios para mostrar.</p>
 {{/if}}
 
-<script>
-  function deleteUser(userId) { if (confirm('¿Estás seguro de que quieres
-  eliminar este usuario?')) { fetch('/api/users/' + userId, { method: 'DELETE'
-  }) .then(response => response.json()) .then(data => { location.reload(); })
-  .catch(error => console.error('Error:', error)); } }
-</script>
+<script src="/js/users.js"></script>

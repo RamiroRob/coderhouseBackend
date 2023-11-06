@@ -54,7 +54,19 @@ const sendDeletionEmail = async (email) => {
     await transporter.sendMail(mailOptions);
 };
 
+const deleteOneUser = async (id) => {
+    try {
+        console.log(id)
+        await userModel.findByIdAndDelete(id);
+        return { message: 'Usuario eliminado' };
+    } catch (error) {
+        console.error(error)
+        return { message: error.message };
+    }
+}
+
 module.exports = {
     getUsers,
-    deleteInactiveUsers
+    deleteInactiveUsers,
+    deleteOneUser
 }
